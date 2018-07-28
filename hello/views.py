@@ -41,10 +41,11 @@ def update_profile(request):
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'hello/profile.html', {
+    return render(request, 'profile.html', {
         'user_form': user_form,
         'profile_form': profile_form
     })
+
 def Logout(request):
-    logout(request)
-    return HttpResponseRedirect('/')
+    auth_logout(request)
+    return redirect('/')
