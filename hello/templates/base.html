@@ -79,5 +79,18 @@
 
 {% block content %}{% endblock %}
 
+{% if user.is_authenticated %}
+<div class="navbar-fixed">
+    <nav class="blue">
+        <div class="nav-wrapper container">
+            <a href="/" class="brand-logo center">Google App</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/account/logout">Log out</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+{% endif %}
+
 </body>
 </html>
