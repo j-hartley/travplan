@@ -1,4 +1,4 @@
-[-e sourceme-priv ] && source sourceme-priv
+[ -e sourceme-priv ] && source sourceme-priv
 
 [ -z "$SOCIAL_AUTH_GOOGLE_OAUTH2_KEY" ] && ( echo >&2 "need oath key"; exit 1 )
 [ -z "$SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET" ] && ( echo >&2 "need oath secret"; exit 1 )

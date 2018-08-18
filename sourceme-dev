@@ -1,0 +1,3 @@
+[ -e sourceme ] && source sourceme
+DJANGO_SETTINGS_MODULE="gettingstarted.development_settings"
+export DJANGO_SETTINGS_MODULE

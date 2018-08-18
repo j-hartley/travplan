@@ -114,6 +114,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ['SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'
 
 WSGI_APPLICATION = 'gettingstarted.wsgi.application'
 
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
