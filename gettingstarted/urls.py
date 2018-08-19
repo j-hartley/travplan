@@ -13,6 +13,8 @@ import hello.views
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
     url(r'^db', hello.views.db, name='db'),
+    url(r'^place/$', hello.views.create_place, name='create-place'),
+    #url(r'^places/', hello.views.places, name='places'),
     url(r'^account/', include(('social_django.urls','account'), namespace='social')),
     url(r'^account/', include(('django.contrib.auth.urls','account'), namespace='auth')),
     url(r'^profile/$', hello.views.update_profile),
