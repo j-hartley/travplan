@@ -49,22 +49,29 @@
 </form>
 <div id="map"></div>
 <script>
-  var map, place;
+  var map, place, geocoder;
+
+  const move_place = async (pos) => {
+    place.setPosition(pos);
+    map.panTo(pos);
+    geocoder.geocode({ 'location': pos }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+          console.log(results[0].formatted_address);
+        }
+      }
+    });
+  };
 
   window.onload = function()
   {
-    function move(pos) {
-      place.setPosition(pos);
-      map.panTo(pos);
-    };
-
     document.getElementById("id_longditude").onchange = function(e)
     {
-      move({lat: Number(document.getElementById('id_latitude').value), lng: Number(e.target.value)});
+      move_place({lat: Number(document.getElementById('id_latitude').value), lng: Number(e.target.value)});
     };
     document.getElementById("id_latitude").onchange = function(e)
     {
-      move({lng: Number(document.getElementById('id_longditude').value), lat: Number(e.target.value)});
+      move_place({lng: Number(document.getElementById('id_longditude').value), lat: Number(e.target.value)});
     };
   };
 
@@ -76,12 +83,14 @@
     place = new google.maps.Marker({
       title: 'place',
     })
+    geocoder = new google.maps.Geocoder();
 
     map.addListener('click', function(e) {
-      place.setPosition(e.latLng);
-      map.panTo(place.getPosition());
-      document.getElementById('id_latitude').value = e.latLng.lat();
-      document.getElementById('id_longditude').value = e.latLng.lng();
+      var lat = e.latLng.lat();
+      var lng = e.latLng.lng();
+      document.getElementById('id_latitude').value = lat;
+      document.getElementById('id_longditude').value = lng;
+      move_place({lat: lat, lng: lng});
     });
 
     infoWindow = new google.maps.InfoWindow;
