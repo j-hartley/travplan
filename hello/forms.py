@@ -16,5 +16,5 @@ class ProfileForm(forms.ModelForm):
 class PlaceForm(forms.ModelForm):
     class Meta:
         model = Place
-        fields = ('country', 'region', 'address', 'postcode', 'date', 'end', 'name', 'description' )
+        fields = ( 'user', 'country', 'region', 'address', 'postcode', 'date', 'end', 'name', 'description', 'longditude', 'latitude', 'name', 'description')
 

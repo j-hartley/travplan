@@ -17,9 +17,9 @@
 </style>
 {% endblock %}
 {% block content %}
+ <H3>Hi {{ user.email }}!</H3>
 <div class="row">
  <div class="col s12 m6 offset-m3">
- <H3>Hi {{ user.email }}!</H3>
  </div>
 </div>
 <form method="post">
@@ -49,16 +49,41 @@
 </form>
 <div id="map"></div>
 <script>
-  // Note: This example requires that you consent to location sharing when
-  // prompted by your browser. If you see the error "The Geolocation service
-  // failed.", it means you probably did not give permission for the browser to
-  // locate you.
-  var map, infoWindow;
+  var map, place;
+
+  window.onload = function()
+  {
+    function move(pos) {
+      place.setPosition(pos);
+      map.panTo(pos);
+    };
+
+    document.getElementById("id_longditude").onchange = function(e)
+    {
+      move({lat: Number(document.getElementById('id_latitude').value), lng: Number(e.target.value)});
+    };
+    document.getElementById("id_latitude").onchange = function(e)
+    {
+      move({lng: Number(document.getElementById('id_longditude').value), lat: Number(e.target.value)});
+    };
+  };
+
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 6
     });
+    place = new google.maps.Marker({
+      title: 'place',
+    })
+
+    map.addListener('click', function(e) {
+      place.setPosition(e.latLng);
+      map.panTo(place.getPosition());
+      document.getElementById('id_latitude').value = e.latLng.lat();
+      document.getElementById('id_longditude').value = e.latLng.lng();
+    });
+
     infoWindow = new google.maps.InfoWindow;
 
     // Try HTML5 geolocation.
@@ -70,9 +95,17 @@
         };
 
         infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        infoWindow.open(map);
         map.setCenter(pos);
+        var marker = new google.maps.Marker({
+          options: { opacity: 0.5 },
+          position: pos,
+          map: map,
+          title: 'you are here'
+        });
+        document.getElementById('id_latitude').value = position.coords.latitude;
+        document.getElementById('id_longditude').value = position.coords.longitude;
+        place.setPosition(pos);
+        place.setMap(map);
       }, function() {
         handleLocationError(true, infoWindow, map.getCenter());
       });
@@ -80,6 +113,7 @@
       // Browser doesn't support Geolocation
       handleLocationError(false, infoWindow, map.getCenter());
     }
+
   }
 
   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
